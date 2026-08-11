@@ -153,6 +153,7 @@ body, html {
   padding: 2.25rem 2rem 3rem;
   background-color: var(--panel);
   color: var(--cream);
+  font-family: var(--font-mono);
 }
 
 /* Centered reading column for both the chapter body and its nav bars,
