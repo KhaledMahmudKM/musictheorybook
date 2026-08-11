@@ -1,0 +1,585 @@
+/* ============================================================
+   Concise Music Theory Book — site chrome
+   Same token set and visual language as css/music-theory-widgets.css
+   (dark bezel panels, cream text, amber accent, LED-style green for
+   "live" states) so the header/sidebar/content read as one product
+   with the interactive widgets rather than a separate template.
+   ============================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-outer: #111213;
+  --panel: #2b2d30;
+  --panel-2: #232527;
+  --bezel-hi: #45484c;
+  --bezel-lo: #17181a;
+  --cream: #e7e2d2;
+  --cream-dim: #948f7f;
+  --amber: #ffb300;
+  --amber-dim: #cc8f00;
+  --green: #4cffa0;
+  --green-dim: #1f6b48;
+  --red: #ff4c3b;
+  --radius: 6px;
+
+  --font-mono: "Space Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+body, html {
+  height: 100%;
+  font-family: var(--font-mono);
+  background: radial-gradient(ellipse at 50% -10%, #1c1e20 0%, var(--bg-outer) 60%);
+  color: var(--cream);
+}
+
+/* Wrapper for full page height layout */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(180deg, #2b2d30, var(--bg-outer));
+  border-bottom: 1px solid var(--bezel-lo);
+  color: var(--cream);
+  padding: 1.1rem 1.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  position: relative;
+}
+
+/* "Live" status lamp in the top-right corner, echoing the instrument
+   panels' pilot lights — signals that this book is interactive. */
+.header::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 1.5rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px 2px rgba(76,255,160,0.65);
+  transform: translateY(-50%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .header::after { animation: mt-pulse 1.6s ease-in-out infinite; }
+}
+@keyframes mt-pulse {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(76,255,160,0.65); }
+  50% { box-shadow: 0 0 14px 5px rgba(76,255,160,0.85); }
+}
+
+.header h1 {
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--cream);
+  margin: 0;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.header h1::before {
+  content: "\1D11E";
+  margin-right: 0.55rem;
+  font-family: serif;
+  text-transform: none;
+  color: var(--amber);
+}
+
+/* Main layout */
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+/* Sidebar styles */
+.sidebar {
+  width: 230px;
+  flex-shrink: 0;
+  background-color: var(--panel-2);
+  color: var(--cream-dim);
+  padding: 1.25rem 1rem;
+  border-right: 1px solid var(--bezel-lo);
+}
+
+.sidebar h2 {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  color: var(--cream-dim);
+}
+
+.sidebar h2::before {
+  content: "\266A  ";
+  color: var(--amber);
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar ul li {
+  font-size: 0.85rem;
+  margin: 0.3rem 0;
+}
+
+.sidebar ul li a {
+  color: var(--cream-dim);
+  text-decoration: none;
+}
+
+.sidebar ul li a:hover {
+  text-decoration: none;
+  color: var(--cream);
+}
+
+/* Content area */
+.content {
+  flex: 1;
+  padding: 2.25rem 2rem 3rem;
+  background-color: var(--panel);
+  color: var(--cream);
+}
+
+/* Centered reading column for both the chapter body and its nav bars,
+   so long-form text stays comfortable to read on wide screens. */
+.content > .chapter-body,
+.content > .chapter-nav {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.content h1, .content h2, .content h3 {
+  font-family: var(--font-mono);
+  margin-top: 1.8rem;
+  margin-bottom: 0.9rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+}
+
+.content h1 {
+  font-size: 1.7rem;
+  color: var(--cream);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--bezel-hi);
+}
+
+.content h2 {
+  font-size: 1.2rem;
+  color: var(--amber);
+}
+
+.content h3 {
+  font-size: 1.02rem;
+  color: var(--cream);
+}
+
+.content p, .content li {
+  color: var(--cream);
+  line-height: 1.75;
+  font-size: 15px;
+}
+
+.content strong { color: #fff; }
+
+.content a { color: var(--amber); }
+.content a:hover { color: #fff; }
+
+/* Blockquotes double as the book's "readout" callout style — used
+   throughout for the 🎧 interactivity notes at the top of every chapter. */
+.content blockquote {
+  background: var(--panel-2);
+  border: 1px solid var(--bezel-lo);
+  border-left: 4px solid var(--amber);
+  border-radius: 4px;
+  padding: 0.9rem 1.15rem;
+  margin: 1.4rem 0;
+  color: var(--cream-dim);
+}
+.content blockquote p { margin: 0; color: inherit; }
+
+.content table th {
+  background: var(--panel-2) !important;
+  color: var(--amber) !important;
+  border-color: var(--bezel-lo) !important;
+}
+.content table td {
+  background: var(--panel) !important;
+  border-color: var(--bezel-lo) !important;
+  color: var(--cream) !important;
+}
+.content table tr:nth-child(2n) td {
+  background: var(--panel-2) !important;
+}
+
+.content code {
+  background: var(--bezel-lo);
+  color: var(--amber);
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+}
+.content pre {
+  background: var(--bezel-lo) !important;
+  border: 1px solid #0e0f10;
+  border-radius: 6px;
+}
+.content pre code {
+  background: transparent;
+  color: var(--cream);
+}
+
+/* Musical-staff section divider — replaces plain <hr>s produced by the
+   markdown "---" separators used constantly throughout every chapter. */
+.content hr {
+  position: relative;
+  border: none;
+  height: 34px;
+  margin: 2.75rem auto;
+  max-width: 760px;
+  background-image:
+    linear-gradient(var(--bezel-hi), var(--bezel-hi)),
+    linear-gradient(var(--bezel-hi), var(--bezel-hi)),
+    linear-gradient(var(--bezel-hi), var(--bezel-hi)),
+    linear-gradient(var(--bezel-hi), var(--bezel-hi)),
+    linear-gradient(var(--bezel-hi), var(--bezel-hi));
+  background-size: 100% 1px;
+  background-position: 0 18%, 0 34%, 0 50%, 0 66%, 0 82%;
+  background-repeat: no-repeat;
+}
+
+.content hr::after {
+  content: "\1D11E";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -56%);
+  font-size: 2.1rem;
+  line-height: 1;
+  color: var(--amber);
+  text-shadow: 0 0 6px var(--panel), 0 0 6px var(--panel), 0 0 10px var(--panel);
+}
+
+/* Footer */
+footer {
+  background: linear-gradient(180deg, var(--bg-outer), #08090a);
+  border-top: 1px solid var(--bezel-lo);
+  color: var(--cream-dim);
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.85rem;
+}
+
+footer a {
+  color: var(--amber);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+  color: #fff;
+}
+
+/* ── TOC: Separator labels ─────────────────────────────────── */
+.sidebar ul li.toc-separator {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+  padding: 1rem 0 0.3rem 0;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--bezel-lo);
+  cursor: default;
+  user-select: none;
+  opacity: 0.75;
+}
+
+/* ── TOC: Active chapter link ──────────────────────────────── */
+.sidebar ul li a.toc-link {
+  display: block;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.sidebar ul li a.toc-link:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.sidebar ul li a.toc-link.active {
+  background: linear-gradient(180deg, #3d2900, #241a00);
+  border-color: #5a4212;
+  color: var(--amber);
+  font-weight: 700;
+}
+
+/* ── Chapter navigation bars (top + bottom) ────────────────── */
+.chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+}
+
+.chapter-nav--top {
+  border-bottom: 1px solid var(--bezel-hi);
+  margin-bottom: 1.75rem;
+}
+
+.chapter-nav--bottom {
+  border-top: 1px solid var(--bezel-hi);
+  margin-top: 1.75rem;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--bezel-lo);
+  border-radius: 4px;
+  background: linear-gradient(180deg, #3a3d40, #232527);
+  color: var(--cream);
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  box-shadow: 0 2px 0 #0a0a0a, inset 0 1px 0 rgba(255,255,255,0.1);
+  transition: background 0.15s, color 0.15s, opacity 0.15s, transform 0.05s ease;
+  max-width: 45%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.nav-btn:hover:not([disabled]) {
+  background: linear-gradient(180deg, #45484c, #2b2d30);
+  color: var(--amber);
+}
+.nav-btn:active:not([disabled]) {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #0a0a0a;
+}
+
+.nav-btn[disabled] {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+.nav-arrow {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.nav-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav-btn--prev .nav-label { text-align: left; }
+.nav-btn--next .nav-label { text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Hamburger button (hidden on desktop) ──────────────────── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--cream);
+  border-radius: 2px;
+  transition: transform 0.25s, opacity 0.25s;
+}
+
+.hamburger:hover span { background: var(--amber); }
+
+/* Animated X when open */
+.hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.is-open span:nth-child(2) { opacity: 0; }
+.hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── Sidebar close button (mobile only) ────────────────────── */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.sidebar-header h2 { margin-bottom: 0; }
+
+.sidebar-close {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--cream-dim);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  line-height: 1;
+}
+.sidebar-close:hover { color: var(--amber); }
+
+/* ── Overlay ───────────────────────────────────────────────── */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 99;
+}
+.sidebar-overlay.is-visible { display: block; }
+
+/* ── Mobile layout (≤ 768px) ───────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Header: row with hamburger + title */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header::after { right: 3.25rem; }
+
+  .header h1 {
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+    text-align: left;
+    flex: 1;
+    /* Prevent overflow on narrow screens */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Show hamburger */
+  .hamburger { display: flex; }
+
+  /* Sidebar becomes a slide-in drawer */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 280px;
+    max-width: 80vw;
+    z-index: 200;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.28s ease;
+    padding: 1rem;
+    /* Keep existing bg colour */
+  }
+
+  .sidebar.is-open {
+    transform: translateX(0);
+    box-shadow: 4px 0 20px rgba(0,0,0,0.6);
+  }
+
+  /* Show close button inside sidebar */
+  .sidebar-close { display: block; }
+
+  /* TOC links: larger tap targets */
+  .sidebar ul li { font-size: 0.9rem; margin: 0.3rem 0; }
+
+  .sidebar ul li a.toc-link {
+    padding: 0.5rem 0.6rem;
+  }
+
+  /* Container stacks vertically */
+  .container {
+    flex-direction: column;
+  }
+
+  /* Content: full width, smaller padding */
+  .content {
+    padding: 1rem;
+    /* Prevent wide code blocks from overflowing */
+    overflow-x: hidden;
+  }
+
+  /* Code blocks: horizontal scroll instead of overflow */
+  .content pre {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  /* Images: never overflow */
+  .content img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Tables: horizontal scroll */
+  .content table {
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  /* Nav buttons: slightly larger for touch */
+  .nav-btn {
+    padding: 0.55rem 0.8rem;
+    font-size: 0.75rem;
+    max-width: 47%;
+    min-height: 44px; /* iOS tap target */
+  }
+
+  /* Footer */
+  .footer { font-size: 0.78rem; padding: 0.75rem; }
+}
+
+/* ── Very small screens (≤ 380px) ─────────────────────────── */
+@media (max-width: 380px) {
+  .header h1 { font-size: 0.85rem; }
+
+  .nav-btn { font-size: 0.7rem; padding: 0.5rem 0.6rem; }
+
+  /* Hide chapter label in nav, show only arrow */
+  .nav-label { display: none; }
+  .nav-arrow { font-size: 1.2rem; }
+}
